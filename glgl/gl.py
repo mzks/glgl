@@ -76,7 +76,11 @@ class gl(object):
             date = now.strftime("%Y%m%d")
 
             msg = self.tcp.send_read_command('MEAS:OUTP:ONE?')
-            data = np.array(struct.unpack_from('>{}h'.format(self.n_channels), msg, 8)) * self.conv_factors
+            try:
+                data = np.array(struct.unpack_from('>{}h'.format(self.n_channels), msg, 8)) * self.conv_factors
+            except:
+                sleep(0.1)
+                continue
 
             if 'csv' in self.config['output']:
                 if self.config['csv']['time_format'] == 'timestamp':
@@ -102,7 +106,11 @@ class gl(object):
                     f.write('\n')
 
             if 'mysql' in self.config['output']:
-                self.cursor.execute(self.insert_query, tuple([now.strftime("%Y-%m-%d %H:%M:%S.%f")] + data.tolist() + [self.config_hash]))
+                try:
+                    self.cursor.execute(self.insert_query, tuple([now.strftime("%Y-%m-%d %H:%M:%S.%f")] + data.tolist() + [self.config_hash]))
+                except:
+                    sleep(0.1)
+                    continue
                 
             sleep(self.config['sampling_time'])
 
