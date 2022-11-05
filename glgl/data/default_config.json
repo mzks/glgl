@@ -6,7 +6,7 @@
     "port": 8023,
     "timeout": 1, // sec.
     "sampling_time": 0.2, // time interval to take data (sec.)
-    "dump_input": true, // show channel settings
+    "dump_input": false, // show channel settings
     "output": ["csv", "mysql"], // Output format
     "path": "./", // path to save your text data and configurations
 

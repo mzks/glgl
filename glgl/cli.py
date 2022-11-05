@@ -26,14 +26,15 @@ def main():
     parser.add_argument('-o', '--output', default='default', choices=['default', 'csv', 'mysql', 'both'],
                         help='Output style (file or database)')
     parser.add_argument('-p', '--path', default='default', help='File output path')
+    parser.add_argument('-d', '--dump', action='store_true', help='Show input channels information')
     parser.add_argument('-n', '--naming', default='default',
                         help='File naming style e.g., date-hash-id.csv etc.')
     parser.add_argument('-f', '--file_header', default='default', help='File header')
-    parser.add_argument('-d', '--delimiter', default='default', help='Delimiter for csv output')
+    parser.add_argument('-z', '--delimiter', default='default', help='Delimiter for csv output')
     parser.add_argument('-b', '--booked', default=None, help='Find configure file booked.')
     parser.add_argument('-s', '--stored', action='store_true', help='Use the previous configuration stored')
     parser.add_argument('-q', '--quit', action='store_true', help='Kill all running glgl')
-    parser.add_argument('-x', '--execute', default=None, help='One-shot execute command (i.e., -x :AMP:CH1?)')
+    parser.add_argument('-x', '--execute', default=None, help='One-shot execute command (i.e., -x ":AMP:CH1?")')
     parser.add_argument('-v', '--version', action='store_true')
 
     args = parser.parse_args()
@@ -108,6 +109,9 @@ def main():
         config['path'] = args.path
     if config['path'][-1] != '/':
         config['path'] = config['path'] + '/'
+    if args.dump == True:
+        config['dump_input'] = True
+
 
     if args.output != 'default':
         config['output'] = args.output

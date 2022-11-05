@@ -107,10 +107,10 @@ class gl(object):
 
     def oneshot_command(self, cmd):
         if '?' in cmd:
-            msg = self.tcp.send_read_command(command)
+            msg = self.tcp.send_read_command(cmd)
             print(msg)
         else:
-            self.tcp.send_command(command)
+            self.tcp.send_command(cmd)
         return
 
 
