@@ -1,0 +1,8 @@
+name: base
+channels:
+- anaconda
+dependencies:
+- pip:
+  - PyMySQL
+  - psutil
+  - numpy
