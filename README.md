@@ -53,7 +53,7 @@ optional arguments:
 ```
 
 
-`glgl -g` generate template config `custom_config.json` in a current directory.
+`glgl -g` generate template config `example_config.json` in a current directory.
 The parameters are written in the config json file as comments.
 ```
 // default_config.json

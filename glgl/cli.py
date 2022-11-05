@@ -23,8 +23,8 @@ def main():
     parser.add_argument('-i', '--ip', default=None, help='GL840 IP address')
     parser.add_argument('-r', '--port', default=8023, type=int, help='GL840 port')
     parser.add_argument('-t', '--sampling_time', default=-1., help='Sampling time interval to collect data (sec.)', type=float)
-    parser.add_argument('-o', '--output', default='default', choices=['default', 'csv', 'mysql', 'both'],
-                        help='Output style (file or database)')
+    parser.add_argument('-o', '--output', default='default', 
+                        help='Output style (csv or mysql), i.e., -o csv,mysql')
     parser.add_argument('-p', '--path', default='default', help='File output path')
     parser.add_argument('-d', '--dump', action='store_true', help='Show input channels information')
     parser.add_argument('-n', '--naming', default='default',
@@ -72,11 +72,11 @@ def main():
         return
 
     if args.generate_config:
-        config_filename = pkg_resources.resource_filename('glgl', 'data') + '/default_config.json'
-        if os.path.exists('./custom_config.json'):
-            print('custom_config.json exists in this directory. Nothing to do.')
+        config_filename = pkg_resources.resource_filename('glgl', 'data') + '/example_config.json'
+        if os.path.exists('./example_config.json'):
+            print('example_config.json exists in this directory. Nothing to do.')
             return
-        shutil.copyfile(config_filename, './custom_config.json')
+        shutil.copyfile(config_filename, './example_config.json')
         return
 
     if args.config == 'default_config':
@@ -112,7 +112,10 @@ def main():
         config['dump_input'] = True
 
     if args.output != 'default':
-        config['output'] = args.output
+        if args.output.find('csv') > 0:
+            config['output'].append('csv')
+        if args.output.find('mysql') > 0:
+            config['output'].append('mysql')
 
     if args.file_header != 'default':
         config['csv']['file_header'] = args.file_header
