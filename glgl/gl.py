@@ -16,12 +16,14 @@ from glgl.hash import deterministic_hash
 
 class gl(object):
 
-    def __init__(self, config):
+    def __init__(self, config, oneshot=False):
         self.config = config
         self.tcp = Tcp(config['timeout'])
         if not self.tcp.open(config['ip'], config['port']):
             print('TCP connection error')
             print('IP address {}, Port {}'.format(config['ip'], config['port']))
+        if oneshot:
+            return
 
         self.initial_setting()
         self.read_settings(config['dump_input'])
@@ -90,13 +92,13 @@ class gl(object):
                 if not os.path.isfile(outfilename):
                     with open(outfilename, mode='a') as f:
                         f.write(commentout_string+'time')
-                        for source in sources:
-                            f.write(delim + source['name'])
+                        for name in self.names:
+                            f.write(delim + name)
                         f.write('\n')
                 with open(outfilename, mode='a') as f:
                     f.write(time_str)
                     for d in data:
-                        f.write(delim+"{:>5.4f}".format(d))
+                        f.write(delim+"{:>5.6f}".format(d))
                     f.write('\n')
 
             if 'mysql' in self.config['output']:
@@ -119,6 +121,7 @@ class gl(object):
         tcp = self.tcp
         config = self.config
         self.n_channels = int(tcp.send_read_command(":INFO:CH?")[len(':INFO:CH?'):])
+        self.names = []
 
         for i_channel in range(self.n_channels):
             ich = str(i_channel+1)
@@ -135,6 +138,10 @@ class gl(object):
 
             if 'name' in c:
                 tcp.send_command(':ANN:CH{} {}'.format(ich, c['name']))
+                self.names.append(c['name'])
+            else:
+                self.names.append('ch'+ich)
+
 
             if 'input' not in c:
                 print('Channel {} input is not set or invalid. Turn off.'.format(ich))

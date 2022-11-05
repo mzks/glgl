@@ -95,7 +95,6 @@ def main():
         else:
             config_filename = pkg_resources.resource_filename('glgl', 'data') + '/default_config.json'
 
-    print('Use config ' + config_filename)
 
     config = read_jsonc(config_filename)
 
@@ -111,7 +110,6 @@ def main():
         config['path'] = config['path'] + '/'
     if args.dump == True:
         config['dump_input'] = True
-
 
     if args.output != 'default':
         config['output'] = args.output
@@ -130,7 +128,8 @@ def main():
     json.dump(config, config_json, indent=4)
     config_json.close()
 
-    g = gl(config)
+
+    g = gl(config, oneshot=True if args.execute else False)
 
     if args.execute:
         g.oneshot_command(args.execute)
