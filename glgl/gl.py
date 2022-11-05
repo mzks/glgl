@@ -49,20 +49,13 @@ class gl(object):
                                     time TIMESTAMP not null default CURRENT_TIMESTAMP,'''.format(table_name)
             for i in range(self.n_channels):
                 ich = str(i+1)
-                if (ich not in config['channels']) or 'name' in config['channels'][ich]:
-                    create_table_query += ('ch'+ich)
-                else:
-                    create_table_query += config['channels'][ich]['name']
-                create_table_query += ' FLOAT,'
+                create_table_query += ('ch'+ich+' FLOAT,')
             create_table_query += 'hash VARCHAR(6), log_time TIMESTAMP, PRIMARY KEY (id))'
             self.cursor.execute(create_table_query)
             insert_query = 'INSERT INTO ' + table_name + '(log_time, '
             for i in range(self.n_channels):
                 ich = str(i+1)
-                if (ich not in config['channels']) or 'name' in config['channels'][ich]:
-                    insert_query += ('ch'+ich+', ')
-                else:
-                    insert_query += (config['channels'][ich]['name'] + ', ')
+                insert_query += ('ch'+ich+', ')
             self.insert_query = insert_query + 'hash) VALUES (' +  ('%s,'*(self.n_channels+2))[:-1] + ')'
 
 

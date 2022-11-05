@@ -45,7 +45,7 @@
         },
         "1":{ // CH1
             // name : channel name used for csv header and sql column name
-            "name": "ch1",
+            "name": "main_sensor",
             "input": "TCT", // TC-T thermocouple input
             // available: [TCK, TCJ, TCT, TCR, TCE, TCB, TCS, TCN, TCW, PT100, JPT100, PT1000]
             "range": "2000", // temperature range, available: [100, 500, 2000]
