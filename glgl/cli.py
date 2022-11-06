@@ -102,7 +102,7 @@ def main():
         config['ip'] = args.ip
     if args.port != None:
         config['port'] = args.port
-    if args.sampling_time > 0.:
+    if args.sampling_time >= 0.:
         config['sampling_time'] = args.sampling_time
     if args.path != 'default':
         config['path'] = args.path
