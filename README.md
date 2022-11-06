@@ -21,9 +21,9 @@ The data logging start with the following command,
 ```
 glgl --ip 192.168.0.1
 ```
-The GL840 IP address should be used instead of `192.168.0.1`
-All channel will be set as DC input and its range 10V.
-As a default run, csv file and json file will be created at the current direcory like `data-20221105-bs664s.csv` and `bs664s.json`.
+Your GL840 IP address should be used instead of `192.168.0.1`
+All channel will be set as DC input and its range 10V as a default.
+In this command, csv file and json file will be created at the current direcory like `data-20221105-bs664s.csv` and `bs664s.json`.
 The csv naming style is configurable (see later).
 The `bs664s` is a deterministic hash generated with all config options.
 Files with different configurations are saved with deferent names.
@@ -85,7 +85,7 @@ optional arguments:
 ### Config json file
 
 `glgl -g` generate template config `example_config.json` in a current directory.
-The parameters are written in the config json file as comments.
+The parameters are written in the config json (commentable with //) file.
 ```
 // default_config.json
 // glgl
@@ -133,7 +133,7 @@ The parameters are written in the config json file as comments.
             "range": "10V"
         },
         "1":{ // CH1
-            // name : channel name used for csv header and sql column name
+            // name : channel name used for csv header
             "name": "ch1",
             "input": "TCT", // TC-T thermocouple input
             // available: [TCK, TCJ, TCT, TCR, TCE, TCB, TCS, TCN, TCW, PT100, JPT100, PT1000]
@@ -147,87 +147,9 @@ The parameters are written in the config json file as comments.
             // available: 20/50/100/200/500(MV) /1/2/5/10/20/(V)/ 1-5(V)
             "filter": "off"
         },
-        "3":{
-            "name": "ch3",
-            "input": "TCK",
-            "range": "100"
-        },
-        "4":{
-            "name": "ch4",
-            "input": "TCJ",
-            "range": "500"
-        },
-        "5":{
-            "name": "ch5",
-            "input": "TCR",
-            "range": "2000"
-        },
-        "6":{
-            "name": "ch6",
-            "input": "TCE",
-            "range": "2000"
-        },
-        "7":{
-            "name": "ch7",
-            "input": "TCB",
-            "range": "2000"
-        },
-        "8":{
-            "name": "ch8",
-            "input": "TCS",
-            "range": "2000"
-        },
-        "9":{
-            "name": "ch9",
-            "input": "TCN",
-            "range": "2000"
-        },
-        "10":{
-            "name": "ch10",
-            "input": "PT1000",
-            "range": "2000"
-        },
-        "11":{
-            "name": "ch11",
-            "input": "DC",
-            "range": "20MV",
-            "filter": 2
-        },
-        "12":{
-            "name": "ch12",
-            "input": "DC",
-            "range": "20MV"
-        },
-        "13":{
-            "name": "ch13",
-            "input": "DC",
-            "range": "50MV"
-        },
-        "14":{
-            "name": "ch14",
-            "input": "DC",
-            "range": "100MV"
-        },
-        "15":{
-            "name": "ch15",
-            "input": "DC",
-            "range": "200MV"
-        },
-        "16":{
-            "name": "ch16",
-            "input": "DC",
-            "range": "500MV"
-        },
-        "17":{
-            "name": "ch17",
-            "input": "DC",
-            "range": "1V"
-        },
-        "18":{
-            "name": "ch18",
-            "input": "DC",
-            "range": "10V"
-        },
+
+        // ... 
+
         "19":{
             "name": "ch19",
             "input": "DC",
