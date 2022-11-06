@@ -22,6 +22,7 @@ class gl(object):
         if not self.tcp.open(config['ip'], config['port']):
             print('TCP connection error')
             print('IP address {}, Port {}'.format(config['ip'], config['port']))
+            sys.exit(1)
         if oneshot:
             return
 
