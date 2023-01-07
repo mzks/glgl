@@ -186,6 +186,10 @@ class gl(object):
             else:
                 print('Channel {} input {} is not supported. Turn off.'.format(ich, c['input']))
                 tcp.send_command(':AMP:CH{}:INP OFF'.format(ich))
+
+            if 'cmd' in c:
+                tcp.send_command(c['cmd'])
+
         return
 
 
