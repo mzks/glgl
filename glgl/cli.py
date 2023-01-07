@@ -35,6 +35,7 @@ def main():
     parser.add_argument('-s', '--stored', action='store_true', help='Use the previous configuration stored')
     parser.add_argument('-q', '--quit', action='store_true', help='Kill all running glgl')
     parser.add_argument('-x', '--execute', default=None, help='One-shot execute command (i.e., -x ":AMP:CH1?")')
+    parser.add_argument('-l', '--log', action='store_true', help='Show log')
     parser.add_argument('-v', '--version', action='store_true')
 
     args = parser.parse_args()
