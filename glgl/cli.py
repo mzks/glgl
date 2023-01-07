@@ -57,7 +57,8 @@ def main():
                     p.kill()
                     add_log('Killed PID: ' + str(pid))
             except:
-                return
+                pass
+        return
 
     if args.log:
         gl.show_log()
