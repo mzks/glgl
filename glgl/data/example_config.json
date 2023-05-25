@@ -34,7 +34,7 @@
             "passwd": "password",
             "autocommit": true},
             "name": "glgl", // database name
-            "table_name": "data"
+            "table_name": "hash"
     },
 
     //// configurations for each channels
