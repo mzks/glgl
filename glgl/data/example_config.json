@@ -139,10 +139,8 @@
             "input": "DC",
             "range": "10V"
         },
-        "19":{
-            "name": "ch19",
-            "input": "DC",
-            "range": "1-5V"
+        "19":{ // turned off, not saved
+            "input": "OFF" 
         }
         // "20" is not defined here, then "default setting will be used for CH20
     }

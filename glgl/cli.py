@@ -31,8 +31,8 @@ def main():
                         help='File naming style e.g., date-hash-id.csv etc.')
     parser.add_argument('-f', '--file_header', default='default', help='File header')
     parser.add_argument('-z', '--delimiter', default='default', help='Delimiter for csv output')
-    parser.add_argument('-b', '--booked', default=None, help='Find configure file booked.')
-    parser.add_argument('-s', '--stored', action='store_true', help='Use the previous configuration stored')
+    parser.add_argument('-b', '--booked', default=None, help='Find configure file with hash.')
+    parser.add_argument('-s', '--same', action='store_true', help='Use the same configuration of the previous run.')
     parser.add_argument('-q', '--quit', action='store_true', help='Kill all running glgl')
     parser.add_argument('-x', '--execute', default=None, help='One-shot execute command (i.e., -x ":AMP:CH1?")')
     parser.add_argument('-l', '--log', action='store_true', help='Show log')
@@ -56,7 +56,7 @@ def main():
                 cmd = ''.join(p.cmdline())
                 if (cmd.find('glgl') != -1) & (cmd.find('glgl-q') == -1):
                     p.kill()
-                    add_log('Killed PID: ' + str(pid))
+                    gl.add_log('Killed PID: ' + str(pid))
             except:
                 pass
         return
@@ -90,7 +90,7 @@ def main():
         else:
             config_filename = args.config
 
-    if args.stored:
+    if args.same:
         config_filename = pkg_resources.resource_filename('glgl', 'data') + '/.previous_config.json'
         if os.path.exists(config_filename):
             pass
@@ -140,6 +140,7 @@ def main():
         g.oneshot_command(args.execute)
         return
 
+    g.add_log('Run {} started.'.format(g.config_hash))
 
     signal.signal(signal.SIGTERM, sig_handler)
     try:
