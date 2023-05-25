@@ -73,9 +73,10 @@ optional arguments:
                         File header
   -z DELIMITER, --delimiter DELIMITER
                         Delimiter for csv output
-  -b BOOKED, --booked BOOKED
+  -b BOOKED, --booked hash
                         Find configure file booked.
   -s, --stored          Use the previous configuration stored
+  -l, --log             List the hashes of the previous runs
   -q, --quit            Kill all running glgl
   -x EXECUTE, --execute EXECUTE
                         One-shot execute command (i.e., -x ":AMP:CH1?")
@@ -186,5 +187,5 @@ In the config,
     }
 ```
 ,the `"name"` and `"table_name"` are used as database name and table name.
-The column name style is like ch1, ch2, ...
+If the `table_name` is `"hash"`, the config deterministic hash will be used for the table name.
 
