@@ -59,6 +59,33 @@ class gl(object):
                 insert_query += (name + ', ')
             self.insert_query = insert_query + 'hash) VALUES (' + ('%s,'*(self.n_channels+2))[:-1] + ')'
 
+        if 'postgres' in config['output']:
+            import psycopg
+            user = config['postgres']['user']
+            passwd = config['postgres']['passwd']
+            host = config['postgres']['host']
+            port = config['postgres']['port']
+            db_name = config['postgres']['name']
+            dsn = f'postgresql://{user}:{passwd}@{host}:{port}/{db_name}'
+            pconn = psycopg.connect(dsn, autocommit=True)
+            self.pcur = pconn.cursor()
+            table_name = config['postgres']['table_name'] if 'table_name' in config['postgres'] else 'data'
+            if table_name == 'hash':
+                table_name = self.config_hash
+            create_table_query = f'CREATE TABLE IF NOT EXISTS {table_name} (id BIGINT GENERATED ALWAYS AS IDENTITY, time TIMESTAMPTZ NOT NULL DEFAULT now(),'
+            for name in self.names:
+                create_table_query += name + ' DOUBLE PRECISION,'
+            create_table_query += 'hash VARCHAR(6), log_time TIMESTAMPTZ, PRIMARY KEY (id))'
+            self.pcur.execute(create_table_query)
+
+            self.pcur.execute(f"CREATE INDEX IF NOT EXISTS {table_name}_time_idx ON {table_name} (time);")
+
+            insert_query = 'INSERT INTO ' + table_name + '(log_time, '
+            for name in self.names:
+                insert_query += (name + ', ')
+            self.pinsert_query = insert_query + 'hash) VALUES (' + ('%s,'*(self.n_channels+2))[:-1] + ')'
+
+
     def __del__(self):
         self.tcp.close()
 
@@ -101,6 +128,13 @@ class gl(object):
             if 'mysql' in self.config['output']:
                 try:
                     self.cursor.execute(self.insert_query, tuple([now.strftime("%Y-%m-%d %H:%M:%S.%f")] + data.tolist() + [self.config_hash]))
+                except:
+                    sleep(0.1)
+                    continue
+
+            if 'postgres' in self.config['output']:
+                try:
+                    self.pcur.execute(self.pinsert_query, tuple([now.strftime("%Y-%m-%d %H:%M:%S.%f")] + data.tolist() + [self.config_hash]))
                 except:
                     sleep(0.1)
                     continue
@@ -185,6 +219,14 @@ class gl(object):
                 else:
                     tcp.send_command(':AMP:CH{}:FILT {}'.format(ich, 'OFF'))
 
+            elif 'RH' == c['input']:
+                if 'name' in c:
+                    tcp.send_command(':ANN:CH{} {}'.format(ich, c['name']))
+                    self.names.append(c['name'])
+                else:
+                    self.names.append('ch' + ich)
+                tcp.send_command(':AMP:CH{}:INP RH'.format(ich))
+
             elif 'OFF' == c['input']:
                 tcp.send_command(':AMP:CH{}:INP OFF'.format(ich))
 
@@ -239,6 +281,8 @@ class gl(object):
                     binary_conversion_factors.append(1./dcranges[sp[3].split(' ')[1]])
                 else:
                     binary_conversion_factors.append(1.)
+            elif 'RH' == sp[0].split(' ')[1]:
+                    binary_conversion_factors.append(1./20000)
             else:
                 pass  # OFF
 

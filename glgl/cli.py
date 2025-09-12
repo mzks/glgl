@@ -24,7 +24,7 @@ def main():
     parser.add_argument('-r', '--port', default=8023, type=int, help='GL840 port')
     parser.add_argument('-t', '--sampling_time', default=-1., help='Sampling time interval to collect data (sec.)', type=float)
     parser.add_argument('-o', '--output', default='default', 
-                        help='Output style (csv or mysql), i.e., -o csv,mysql')
+                        help='Output style (csv, mysql, postgres), i.e., -o csv,mysql')
     parser.add_argument('-p', '--path', default='default', help='File output path')
     parser.add_argument('-d', '--dump', action='store_true', help='Show input channels information')
     parser.add_argument('-n', '--naming', default='default',
@@ -39,7 +39,7 @@ def main():
     parser.add_argument('-v', '--version', action='store_true')
 
     args = parser.parse_args()
-    version = '0.1.0'
+    version = '0.2.0'
     if args.version:
         print('glgl version : ' + version)
         return
@@ -118,6 +118,8 @@ def main():
             config['output'].append('csv')
         if args.output.find('mysql') > 0:
             config['output'].append('mysql')
+        if args.output.find('postgres') > 0:
+            config['output'].append('postgres')
 
     if args.file_header != 'default':
         config['csv']['file_header'] = args.file_header

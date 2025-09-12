@@ -7,7 +7,7 @@
     "timeout": 1, // sec.
     "sampling_time": 0.2, // time interval to take data (sec.)
     "dump_input": false, // show channel settings
-    "output": ["csv", "mysql"], // Output format
+    "output": ["csv", "mysql", "postgres"], // Output format
     "path": "./", // path to save your text data and configurations
 
     //// Configurations for formats to save file
@@ -36,6 +36,15 @@
             "name": "glgl", // database name
             "table_name": "hash"
     },
+
+    "postgres":{
+        "host": "localhost",
+        "port": 5432,
+        "user": "root",
+        "passwd": "password",
+        "name": "glgl", // database name
+        "table_name": "hash"
+    }
 
     //// configurations for each channels
     "channels":{
