@@ -1,6 +1,6 @@
 # glgl
 
-Monitor Graphtec GL840 data logger via ethernet
+Monitor Graphtec GL840/860 data logger via ethernet
 
 ## Features
  - easy install
@@ -21,7 +21,7 @@ The data logging start with the following command,
 ```
 glgl --ip 192.168.0.1
 ```
-Your GL840 IP address should be used instead of `192.168.0.1`
+Your GL840/860 IP address should be used instead of `192.168.0.1`
 All channel will be set as DC input and its range 10V as a default.
 In this command, csv file and json file will be created at the current direcory like `data-20221105-bs664s.csv` and `bs664s.json`.
 The csv naming style is configurable (see later).
@@ -37,7 +37,7 @@ Then, run `glgl -c your_config.json`.
 The script can kill `glgl -q` command even it run with nohup.
 
 If you want directly to execute command without continues logging, use `-x` option.
-This option doesn't touch GL840 configuration, just run the command.
+This option doesn't touch GL840/860 configuration, just run the command.
 
 This script corrects the data in each `sampling_time` (seconds) + processing offset.
 The `sampling_time` is set in the json config or `-t` option.
@@ -59,8 +59,8 @@ optional arguments:
                         Config json file name
   -g, --generate_config
                         Generate config example
-  -i IP, --ip IP        GL840 IP address
-  -r PORT, --port PORT  GL840 port
+  -i IP, --ip IP        GL840/860 IP address
+  -r PORT, --port PORT  GL840/860 port
   -t SAMPLING_TIME, --sampling_time SAMPLING_TIME
                         Sampling time interval to collect data (sec.)
   -o OUTPUT, --output OUTPUT
